@@ -1,0 +1,53 @@
+.model small
+.stack
+.data
+.code
+mov ax,@data
+mov ds,ax
+
+mov dh,12
+mov dl,40
+mov ah,02h
+int 10h
+mov al,30h
+
+up2:mov dl,al
+mov ah,02h
+int 21h
+push ax
+mov bl,30h
+up1:mov dl,bl
+mov ah,02h
+int 21h
+inc bl
+call delay
+mov ah,03h
+int 10h
+mov dl,41
+mov ah,02h
+int 10h
+cmp bl,39h
+jle up1
+
+mov dl,40
+mov ah,02h
+int 10h
+pop ax
+inc al
+cmp al,39h
+jle up2
+mov ah,4ch
+int 21h
+
+delay proc
+push bx
+mov cx,8888h
+up4:mov bx,8888h
+up3: dec bx
+jnz up3
+loop up4
+pop bx
+ret
+delay endp
+
+end

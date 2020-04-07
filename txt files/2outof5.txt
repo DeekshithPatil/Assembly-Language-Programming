@@ -1,0 +1,40 @@
+.model small
+.stack
+.data
+num db 18h
+msg1 db "it is a 2 out of 5 code$"
+msg2 db 'it is not a 2 out of 5 code$"
+
+.code
+mov ax,@data
+mov ds,ax
+
+mov al,num
+mov bl,num
+mov cl,03h
+
+up1:rcl,01h
+jc dn1
+loop up1
+mov dl,05h
+
+up2:ror bl,05h
+jnc dn2
+inc ch
+
+dn2:dec dl
+jnz up2
+cmp ch,02h
+jne dn1
+lea dx,msg1
+mov ah,09h
+int 21h 
+jmp exit
+
+dn1:lea dx,msg2
+mov ah,09h
+int 21h
+
+exit:mov ah,4ch
+int 21h
+end
